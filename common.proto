@@ -1,0 +1,40 @@
+// See README.txt for information and build instructions.
+//
+// Note: START and END tags are used in comments to define sections used in
+// tutorials.  They are not part of the syntax for Protocol Buffers.
+//
+// To get an in-depth walkthrough of this file and the related examples, see:
+// https://developers.google.com/protocol-buffers/docs/tutorials
+
+// [START declaration]
+syntax = "proto3";
+package common_proto;
+
+import "google/protobuf/timestamp.proto";
+// [END declaration]
+
+option objc_class_prefix = "COMMONPROTO";
+
+// [START java_declaration]
+option java_package = "top.ffox.CommonProto";
+option java_outer_classname = "CommonProto";
+// [END java_declaration]
+
+// [START csharp_declaration]
+option csharp_namespace = "top.ffox.CommonProto";
+// [END csharp_declaration]
+
+// [START messages]
+message ClientInfo {
+    int64 uid = 1;
+    string device_id = 2;
+    string token = 3;
+    GPS gps = 4;
+}
+
+message GPS {
+    double longitude = 1;
+    double latitude = 2;
+}
+ 
+// [END messages]

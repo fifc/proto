@@ -1,0 +1,41 @@
+// See README.txt for information and build instructions.
+//
+// Note: START and END tags are used in comments to define sections used in
+// tutorials.  They are not part of the syntax for Protocol Buffers.
+//
+// To get an in-depth walkthrough of this file and the related examples, see:
+// https://developers.google.com/protocol-buffers/docs/tutorials
+
+// [START declaration]
+syntax = "proto3";
+package kafka_proto;
+
+import "google/protobuf/timestamp.proto";
+// [END declaration]
+
+option objc_class_prefix = "KAFKAPROTO";
+
+// [START java_declaration]
+option java_package = "top.ffox.KafkaProto";
+option java_outer_classname = "KafkaProto";
+// [END java_declaration]
+
+// [START csharp_declaration]
+option csharp_namespace = "top.ffox.KafkaProto";
+// [END csharp_declaration]
+
+// [START messages]
+message MqttStatus {
+  enum Status {
+    offline = 0;
+    online = 1;
+  }
+  Status status = 1;
+  int64     uid = 2;
+  string  token = 3;
+  string device = 4;
+  string   addr = 5;
+  int64    time = 6;
+}
+
+// [END messages]

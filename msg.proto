@@ -1,0 +1,114 @@
+// See README.txt for information and build instructions.
+//
+// Note: START and END tags are used in comments to define sections used in
+// tutorials.  They are not part of the syntax for Protocol Buffers.
+//
+// To get an in-depth walkthrough of this file and the related examples, see:
+// https://developers.google.com/protocol-buffers/docs/tutorials
+
+// [START declaration]
+syntax = "proto3";
+package msg_proto;
+
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+// [END declaration]
+
+option objc_class_prefix = "MSGPROTO";
+
+// [START java_declaration]
+option java_package = "top.ffox.MsgProto";
+option java_outer_classname = "MsgProto";
+// [END java_declaration]
+
+// [START csharp_declaration]
+option csharp_namespace = "top.ffox.MsgProto";
+// [END csharp_declaration]
+
+// [START messages]
+enum LiveMessageType {
+	LMT_SYSTEM_NOTIFICATION = 0;
+	LMT_SERVICE_RESPONSE = 1;
+	LMT_NEARBY_USER_UPDATE = 2;
+	LMT_GAME_CONTACT_INFO = 3;
+	LMT_GAME_LIVE_STATE = 4;
+	LMT_LIVE_CONNECT_NOTIFY = 5;
+	LMT_SEARCH_NEARBY_USERS = 6;
+	LMT_SERVER_STATUS = 7;
+}
+
+enum InstantMessageType {
+	IM_ADD_CONTACT = 0;
+	IM_SHARE_SOC_ID = 1;
+	IM_FEEDBACK_MSG = 2;
+}
+
+message ImAddContact {
+  string name = 1;
+  int32 id = 2;  // Unique ID number for this person.
+  string email = 3;
+
+  google.protobuf.Timestamp last_updated = 5;
+}
+
+message ImShareSocId {
+  string name = 1;
+  int32 id = 2;  // Unique ID number for this person.
+  string email = 3;
+
+}
+
+message ImFeedbackMsg {
+  string name = 1;
+}
+
+message ServiceResponse {
+  int64 id = 1;
+}
+
+message NearbyUserUpdate {
+  int64 id = 1;
+}
+
+message GameContactInfo {
+  enum ContactType {
+	no_interest = 0;
+	interested = 1;
+	i_interested = 2;
+  }
+  LiveUser from = 1;
+  LiveUser to = 2;
+  ContactType type = 3;
+  common_proto.GPS gps = 4;
+}
+
+message LiveUser {
+  int64 uid = 1;
+  string name = 2;
+  common_proto.GPS gps = 3;
+}
+
+message GameLiveStateInfo {
+  int64 id = 1;
+  int64 time = 2;
+  GameLiveState state = 3;
+  common_proto.ClientInfo client_info = 4;
+}
+
+enum GameLiveState {
+	game_state_idle = 0;
+}
+
+message LiveConnectNotify {
+  int64 id = 1;
+}
+
+message ServerStatus {
+  int64 id = 1;
+}
+
+message SearchNearbyUsers {
+  common_proto.ClientInfo client_info = 9;
+}
+
+// [END messages]

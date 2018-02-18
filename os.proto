@@ -8,20 +8,20 @@
 
 // [START declaration]
 syntax = "proto3";
-package sea_proto;
+package os_proto;
 
 import "google/protobuf/timestamp.proto";
 // [END declaration]
 
-option objc_class_prefix = "SEAPROTO";
+option objc_class_prefix = "OSPROTO";
 
 // [START java_declaration]
-option java_package = "top.ffox.SeaProto";
-option java_outer_classname = "SeaProto";
+option java_package = "top.ffox.OsProto";
+option java_outer_classname = "OsProto";
 // [END java_declaration]
 
 // [START csharp_declaration]
-option csharp_namespace = "top.ffox.SeaProto";
+option csharp_namespace = "top.ffox.OsProto";
 // [END csharp_declaration]
 
 // [START messages]
