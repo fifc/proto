@@ -8,7 +8,7 @@
 
 // [START declaration]
 syntax = "proto3";
-package common_proto;
+package sea_proto;
 
 import "google/protobuf/timestamp.proto";
 // [END declaration]
@@ -25,9 +25,34 @@ option csharp_namespace = "top.ffox.CommonProto";
 // [END csharp_declaration]
 
 // [START messages]
+message ErrorInfo {
+	enum ErrorCode {
+		// 通用错误码
+		OK          = 0;
+		ERROR       = 1;
+		INVALID     = 2; // 无效参数
+		NOT_FOUND   = 3; // 请求资源不存在
+		NO_SERVICE  = 4; // 服务不可用
+		DENIED      = 5; // 清绝被拒绝
+		NETWORK     = 6; // 网络错误
+		DB_FAIL     = 7; // 数据库错误
+		TIMEOUT     = 8; // 服务超时
+		// 验证/安全
+		VERIFY_FAIL   = 1001; // 验证码错误
+		AUTH_FAIL     = 1002; // 鉴权失败
+		PHONE_EXISTED = 1003; // 手机号码已经注册
+		SESSION_ERROR = 1004; // 未登录/session失效
+		// 消息/会话
+		TALK_REFUSED  = 2001; // 会话被对方拒绝
+		TALK_FAIL     = 2002; // 无法建立会话
+	}
+	ErrorCode err = 1;
+	string    msg = 2;
+}
+
 message ClientInfo {
     int64 uid = 1;
-    string device_id = 2;
+    string dev_key = 2;
     string token = 3;
     GPS gps = 4;
 }

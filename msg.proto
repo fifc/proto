@@ -79,24 +79,24 @@ message GameContactInfo {
   LiveUser from = 1;
   LiveUser to = 2;
   ContactType type = 3;
-  common_proto.GPS gps = 4;
+  sea_proto.GPS gps = 4;
 }
 
 message LiveUser {
   int64 uid = 1;
   string name = 2;
-  common_proto.GPS gps = 3;
+  sea_proto.GPS gps = 3;
 }
 
 message GameLiveStateInfo {
   int64 id = 1;
   int64 time = 2;
   GameLiveState state = 3;
-  common_proto.ClientInfo client_info = 4;
+  sea_proto.ClientInfo client_info = 4;
 }
 
 enum GameLiveState {
-	game_state_idle = 0;
+  game_state_idle = 0;
 }
 
 message LiveConnectNotify {
@@ -108,7 +108,7 @@ message ServerStatus {
 }
 
 message SearchNearbyUsers {
-  common_proto.ClientInfo client_info = 9;
+  sea_proto.ClientInfo client_info = 9;
 }
 
 // [END messages]

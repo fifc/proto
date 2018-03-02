@@ -11,6 +11,9 @@ syntax = "proto3";
 package sea_proto;
 
 import "google/protobuf/timestamp.proto";
+import "common.proto";
+import "user.proto";
+
 // [END declaration]
 
 option objc_class_prefix = "SEAPROTO";
@@ -25,49 +28,87 @@ option csharp_namespace = "top.ffox.SeaProto";
 // [END csharp_declaration]
 
 // [START messages]
-message Person {
-  string name = 1;
-  int32 id = 2;  // Unique ID number for this person.
-  string email = 3;
-
-  enum PhoneType {
-    MOBILE = 0;
-    HOME = 1;
-    WORK = 2;
-  }
-
-  message PhoneNumber {
-    string number = 1;
-    PhoneType type = 2;
-  }
-
-  repeated PhoneNumber phones = 4;
-
-  google.protobuf.Timestamp last_updated = 5;
+message GetPiCodeRequest {
+	ClientInfo client_info = 9;
 }
 
-// Our address book file is just one of these.
-message AddressBook {
-  repeated Person people = 1;
+message GetPiCodeReply {
+	ErrorInfo err_info   = 1;
+	string    session_id = 2;
+	bytes     img_data   = 3;
 }
 
-
-// The request message containing the user's name and how many greetings
-// they want.
-message HelloRequest {
-  string name = 1;
-  string num_greetings = 2;
+message GetSmsVericodeRequest {
+	string     session_id  = 1;
+	string     pic_code    = 2;
+	string     phone       = 3;
+	ClientInfo client_info = 9;
 }
 
-// A response message containing a greeting
-message HelloReply {
-  string message = 1;
+message GetSmsVericodeReply {
+	ErrorInfo err_info    = 1;
+	int32     expire_time = 2; // 有效时间，单位秒
 }
 
+message SignupRequest {
+	string phone       = 1; // 手机号码，统一格式为： 国家区号=手机号码， 如 86-18811112222
+	string session_id  = 2; // 注册阶段的session, 非登录session
+	string verify_code = 3;
+	string passwd      = 4;
+	string name        = 5; // 昵称
+	ClientInfo client_info = 9;
+}
+
+message SignupReply {
+	ErrorInfo err_info = 1;
+	int64     uid      = 2;
+}
+
+message SetUserBasicInfoRequest {
+	user_proto.UserBasicInfo user_info = 1;
+	ClientInfo client_info = 9;
+}
+
+message SetUserBasicInfoReply {
+	ErrorInfo err_info  = 1;
+	user_proto.UserBasicInfo user_info = 2;
+}
+
+message LoginRequest {
+	string phone           = 1; // 手机号码，统一格式为： 国家区号=手机号码， 如 86-18811112222
+	string passwd          = 2;
+	string openid          = 3; // 第三方开放账号登录, 格式为: "QQ/100200333", "WECHAT/13900010002"
+	string openid_sig      = 4; // 等三方登录成功后的签名
+	ClientInfo client_info = 9;
+}
+
+message LoginReply {
+	ErrorInfo     err_info = 1;
+	string        session  = 2;
+	user_proto.UserBasicInfo user_info = 9;
+}
+
+message LogoutRequest {
+	ClientInfo client_info = 1;
+}
+
+message PingRequest {
+	ClientInfo client_info = 1;
+}
+
+message PingReply {
+	ErrorInfo err_info  = 1;
+}
 // The greeting service definition.
-service MultiGreeter {
-  // Sends multiple greetings
-  rpc sayHello (HelloRequest) returns (stream HelloReply) {}
+service SeaService {
+	rpc Login(LoginRequest) returns (LoginReply);
+	rpc Logout(LogoutRequest) returns (ErrorInfo);
+	rpc Signup(SignupRequest) returns (SignupReply);
+	rpc SetUserBasicInfo(SetUserBasicInfoRequest) returns (SetUserBasicInfoReply);
+	rpc GetPiCode(GetPiCodeRequest) returns (GetPiCodeReply);
+	rpc GetSmsVericode(GetSmsVericodeRequest) returns (GetSmsVericodeReply);
+	// 心跳
+	rpc Ping(PingRequest) returns (PingReply);
 }
 
 // [END messages]
